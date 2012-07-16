@@ -1,9 +1,5 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express');
+var path = require('path');
 var http = require('http');
 var fs = require('fs');
 var routes = require('./routes.js');
@@ -21,19 +17,20 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(path.join(__dirname + 'public')));
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index.index);
-
 app.get('/routes', routes.__allRoutes);
-
+app.get('/', routes.index.index);
 // Subscriptions to tv shows and more
 app.get('/subscriptions', routes.subscriptions.all);
+app.get('/torrents', routes.torrents.index);
+app.get('/torrents/add/', routes.torrents.add);
+app.get('/torrents/add/:id', routes.torrents.add);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
