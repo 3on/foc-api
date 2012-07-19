@@ -31,6 +31,13 @@ app.get('/subscriptions', routes.subscriptions.all);
 app.get('/torrents', routes.torrents.index);
 app.get('/torrents/add/', routes.torrents.add);
 app.get('/torrents/add/:id', routes.torrents.add);
+app.get('/torrents/tr', routes.torrents.tr);
+
+
+/*var trFactory = require('./tr.js');
+var tr = {};
+tr.vjeux = trFactory.create('mamasse', 'lolilol');
+tr.jr = trFactory.create('jr', 'toto');*/
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
