@@ -26,8 +26,8 @@ exports.tr = function(req, res) {
 		uri: configPrivate.tr.uri,
 		json: {method: 'torrent-get', arguments: {fields:['name']}}
 	};
-	var Transmission = require('../lib/Transmission.js');
-	var torrent = Transmission.getInstance('3on');
+	var transmission = require('../lib/Transmission.js');
+	var torrent = transmission.getInstance('3on');
 	
 	torrent.rpc(options, function(response, body) {
 		console.log(body);
