@@ -4,42 +4,54 @@ function Transmission() {
   var private = 'private';
   this.XTransmissionSessionId = null;
   var self = this;
+
+  this.fonctionpublique = function() {
+  	return lol;
+  }
 };
 
-Transmission.prototype.rpc = function rpc(options, callback) {
-	if (this.XTransmissionSessionId != null) {
+var instances = {};
+
+Transmission.create = function() {
+	return new Transmission();
+}
+
+Transmission.prototype.rpc = function(options, callback) {
+	if (this.XTransmissionSessionId) {
 		options.headers = {'x-transmission-session-id': XTransmissionSessionId};
 	}
-	var _private_requestTrCallback =  function rpcCallback(response, body) {
-		callback.call(response, body);
+	var _requestTrCallback =  function(response, body) {
+		callback(response, body);
 	}
-	this._private_requestTr(options, _private_requestTrCallback);
+	this._requestTr(options, _requestTrCallback);
 };
 
-Transmission.prototype._private_requestTr =
-  function _private_requestTrClosure(options, callback) {
+Transmission.prototype._requestTr =	function(options, _requestTrCallback) {
 	var request = require('request');
 	var self = this;
-	request.post(options, function (error, response, body) {
+	var postCallback = function(error, response, body) {
 		if (response.statusCode === 409) {
 			console.log('Error 409. Resetting X-Transmission-Session-Id.');
 			XTransmissionSessionId = response.headers['x-transmission-session-id'];
 			options.headers = {'x-transmission-session-id': XTransmissionSessionId};
-			return self._private_requestTr(options, callback);
+			return self._requestTr(options, _requestTrCallback);
 		} else if (response.statusCode != 200) {
 			console.log('error (transmission response): '+ response.statusCode)
 			console.log(body);
 			return;
 		}
-		callback.call(response, body);
-	});
+		console.log(body);
+		_requestTrCallback(response, body);
+	};
+	request.post(options, postCallback);
 };
 
-exports.getNew = function newClosure() {
-	this.instance = new Transmission();
-	return this.instance;
-};
-
-exports.getInstance = function instanceClosure() {
-	return this.instance;
+exports.getInstance = function(name) {
+	/* Evaluates to false:
+		false, undefined, null, 0, '', ""
+	*/
+	if (!instances[name]) {
+		instances[name] = Transmission.create();
+	}
+	return instances[name];
 };

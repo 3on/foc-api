@@ -15,4 +15,4 @@ node_modules
 npm-debug.log
 .DS_Store
 
-src/config_private.json
+config_private.js

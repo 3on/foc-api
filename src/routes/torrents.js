@@ -1,8 +1,8 @@
-exports.index = function indexClosure(req, res) {
+exports.index = function(req, res) {
   res.json( { title: 'Torrents' } );
 }
 
-exports.add = function addClosure(req, res) {
+exports.add = function(req, res) {
 	var id = req.params.id;
 	var status = 'ko';
 	var added = false;
@@ -18,21 +18,20 @@ exports.add = function addClosure(req, res) {
   res.json( { status:status, added:added, id:id } );
 }
 
-exports.tr = function trClosure(req, res) {
+exports.tr = function(req, res) {
 	console.log('Calling tr method');
 	var configPrivate = require('../config_private.js');
 	var options =
 	{
 		uri: configPrivate.tr.uri,
-		json: {method: 'torrent-get', arguments: {fields:['files']}}
+		json: {method: 'torrent-get', arguments: {fields:['name']}}
 	};
 	var Transmission = require('../lib/Transmission.js');
-	var torrent = Transmission.getInstance();
-	if (torrent === undefined || torrent === null) {
-		torrent = Transmission.getNew();
-	}
+	var torrent = Transmission.getInstance('3on');
 	
-	torrent.rpc(options, function rpcCallback(response, body) {
-		return res.json( {status: 'ok', 'tr-response': response});
+	torrent.rpc(options, function(response, body) {
+		console.log(body);
+		console.log(response);
+		return res.json( {status: 'ok!', trbody: body} );
 	});
 }
