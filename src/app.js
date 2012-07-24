@@ -29,9 +29,7 @@ app.get('/', routes.index.index);
 // Subscriptions to tv shows and more
 app.get('/subscriptions', routes.subscriptions.all);
 app.get('/torrents', routes.torrents.index);
-app.get('/torrents/add/', routes.torrents.add);
-app.get('/torrents/add/:id', routes.torrents.add);
-app.get('/torrents/tr', routes.torrents.tr);
+app.post('/torrents/tr/:method', routes.torrents.tr);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

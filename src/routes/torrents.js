@@ -2,34 +2,39 @@ exports.index = function(req, res) {
   res.json( { title: 'Torrents' } );
 }
 
-exports.add = function(req, res) {
-	var id = req.params.id;
-	var status = 'ko';
-	var added = false;
+/**
+	ex:
 
-	if ( id === undefined || id === null || id === '') {
-		if ( id === undefined)
-			id = 'undefined';
-		return res.json( { status:status, added:added, id:id } );
-	}
-	var status = 'ok';
-	var added = true;
+	*POST*
+	/torrents/tr/torrent-get
 
-  res.json( { status:status, added:added, id:id } );
-}
+	*data*
+	Content-Type application/json
+	{"fields": ["name"]}
 
+*/
 exports.tr = function(req, res) {
+	sanitize = require('validator').sanitize;
+	if (req.params.method) {
+		var method = sanitize(req.params.method).xss();
+	}
+	if (req.body) {
+		var arguments = sanitize(req.body).xss();
+	}
+
 	console.log('Calling tr method');
-	var configPrivate = require('../config_private.js');
+	console.log('method=' + method);
+
 	var options =
 	{
-		uri: configPrivate.tr.uri,
-		json: {method: 'torrent-get', arguments: {fields:['name']}}
+		uri: require('../config_private.js').tr.uri,
+		json: {method: method, arguments: arguments},
+		tag: 42
 	};
 	var transmission = require('../lib/Transmission.js');
 	var torrent = transmission.getInstance('3on');
 	
 	torrent.rpc(options, function(response, body) {
-		return res.json( {status: 'ok!', trbody: body} );
+		return res.json( {status: 'ok', trBody: body} );
 	});
 }
