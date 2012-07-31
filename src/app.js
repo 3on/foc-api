@@ -10,7 +10,7 @@ var app = express();
 var config = JSON.parse(fs.readFileSync('config.json'));
 
 app.configure(function(){
-  app.set('port', process.env.PORT_WWW || 8080);
+  app.set('port', process.env.WWW_PORT || 8080);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
