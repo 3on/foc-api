@@ -14,8 +14,6 @@ function Transmission() {
 	};
 
 	this._requestTr = function(options, _requestTrCallback) {
-		var request = require('request');
-		
 		var postCallback = function(error, response, body) {
 			if (response.statusCode === 409) {
 				console.log('Error 409. Resetting X-Transmission-Session-Id.');
@@ -29,7 +27,7 @@ function Transmission() {
 			}
 			_requestTrCallback(response, body);
 		};
-		request.post(options, postCallback);
+		require('request').post(options, postCallback);
 	};
 };
 

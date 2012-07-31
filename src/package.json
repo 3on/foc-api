@@ -10,6 +10,7 @@
     "jade": "*",
     "underscore": "",
     "request": "",
-    "validator": ""
+    "validator": "",
+    "connect-auth" : ">= 0.3.0"
   }
 }
