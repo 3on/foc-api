@@ -31,7 +31,7 @@ exports.tr = function(req, res) {
 		json: {method: method, arguments: arguments},
 		tag: 42
 	};
-	if (tr.uri === 'http://xxx/transmission/rpc') {
+	if (options.uri === 'http://xxx/transmission/rpc') {
 		console.log('Error: default URL should be replaced in config_private.js.');
 	}
 	var transmission = require('../lib/Transmission.js');
