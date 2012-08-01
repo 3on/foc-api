@@ -41,7 +41,7 @@ app.get('/subscriptions', routes.subscriptions.all);
 app.post('/torrents/tr/:method', authMiddleware, routes.torrents.tr);
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  console.log('Foc API listening on port ' + app.get('port'));
 });
 
 
@@ -58,8 +58,8 @@ http.createServer(app).listen(app.get('port'), function(){
     });
 }*/
 function login(username, password, success, failure) {
-  console.log("login/username="+username);
-  console.log("login/password="+password);
+  console.log('login/username='+username);
+  console.log('login/password='+password);
   success();
 }
 
