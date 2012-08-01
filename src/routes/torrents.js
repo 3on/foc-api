@@ -38,6 +38,6 @@ exports.tr = function(req, res) {
 	var torrent = transmission.getInstance('3on');
 	
 	torrent.rpc(options, function(response, body) {
-		return res.json( {status: 'ok!', trBody: body} );
+		return res.json( {status: 'ok', trBody: body} );
 	});
 }
